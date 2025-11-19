@@ -44,7 +44,7 @@ jobs:
 
       - name: 🚀 Deploy para Railway
         # Usaremos a CLI (Command Line Interface) do Railway para o deploy
-        uses: railwayapp/cli@v3
+        uses: railwayapp/cli@latest
         with:
           # O token de deploy criado na etapa 1, referenciado pelo segredo do GitHub
           token: ${{ secrets.RAILWAY_DEPLOYMENT_TOKEN }}
