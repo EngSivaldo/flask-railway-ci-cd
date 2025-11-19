@@ -1,0 +1,52 @@
+# .github/workflows/deploy.yml
+
+name: CI/CD Deploy Flask/Python para Railway
+
+# 1. Gatilho: O workflow será executado em push para a branch 'main'
+on:
+  push:
+    branches:
+      - main
+  # Permite a execução manual do workflow na aba Actions do GitHub
+  workflow_dispatch:
+
+# Define o conjunto de jobs que o workflow irá executar
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # Define as variáveis de ambiente para o job de deploy
+    env:
+      RAILWAY_SERVICE_ID: seu_service_id_do_railway
+      RAILWAY_DEPLOY_BRANCH: main
+
+    steps:
+      - name: ⚙️ Checkout do Código
+        # Ação para baixar o código do repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # **Passos de Configuração Específicos para Python/Flask**
+      - name: 🐍 Configurar Python
+        # Ação para configurar o ambiente Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11" # Ajuste a versão do Python, use uma estável.
+          cache: "pip" # Otimiza o processo de instalação de dependências
+
+      - name: 📦 Instalar Dependências (requirements.txt)
+        # Comando para instalar as dependências listadas no arquivo requirements.txt
+        run: pip install -r requirements.txt
+
+      # O Flask geralmente não requer um passo de "Build" separado como o frontend.
+      # O Railway irá executar o comando de "Start" configurado por você.
+
+      - name: 🚀 Deploy para Railway
+        # Usaremos a CLI (Command Line Interface) do Railway para o deploy
+        uses: railwayapp/cli@v3.4.0
+        with:
+          # O token de deploy criado na etapa 1, referenciado pelo segredo do GitHub
+          token: ${{ secrets.RAILWAY_DEPLOYMENT_TOKEN }}
+          # O comando de deploy, utilizando as variáveis de ambiente
+          command: railway up --service ${{ env.RAILWAY_SERVICE_ID }} --service-branch ${{ env.RAILWAY_DEPLOY_BRANCH }} --detach

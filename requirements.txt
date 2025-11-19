@@ -1,0 +1,4 @@
+# requirements.txt
+Flask
+gunicorn
+# Adicione outras bibliotecas aqui (ex: psycopg2, python-dotenv)
