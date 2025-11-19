@@ -32,7 +32,7 @@ jobs:
         # Ação para configurar o ambiente Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11" # Ajuste a versão do Python, use uma estável.
+          python-version: "3.13" # Ajuste a versão do Python, use uma estável.
           cache: "pip" # Otimiza o processo de instalação de dependências
 
       - name: 📦 Instalar Dependências (requirements.txt)

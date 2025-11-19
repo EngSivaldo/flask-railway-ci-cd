@@ -1,4 +1,5 @@
 # requirements.txt
 Flask
 gunicorn
+wheel  # <-- ADICIONE ESTA LINHA
 # Adicione outras bibliotecas aqui (ex: psycopg2, python-dotenv)
